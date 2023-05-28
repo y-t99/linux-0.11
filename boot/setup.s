@@ -37,17 +37,18 @@ start:
 	mov	ds,ax
 	mov	ah,#0x03	! read cursor pos
 	xor	bh,bh
+	// 把光标信息（X,Y的值）存在到0x9000:0处
 	int	0x10		! save it in known place, con_init fetches
 	mov	[0],dx		! it from 0x90000.
 
 ! Get memory size (extended mem, kB)
-
+	// 把拓展内存信息存到0x9000:2处
 	mov	ah,#0x88
 	int	0x15
 	mov	[2],ax
 
 ! Get video-card data:
-
+  // 显示器的相关信息，0x90004
 	mov	ah,#0x0f
 	int	0x10
 	mov	[4],bx		! bh = display page
@@ -63,7 +64,7 @@ start:
 	mov	[12],cx
 
 ! Get hd0 data
-
+	// 获取第一块硬盘的信息。
 	mov	ax,#0x0000
 	mov	ds,ax
 	lds	si,[4*0x41]
@@ -71,11 +72,12 @@ start:
 	mov	es,ax
 	mov	di,#0x0080
 	mov	cx,#0x10
+	// 把内存地址 0x10000 处开始往后一直到 0x90000 的内容，统统复制到内存的最开始的 0 位置
 	rep
 	movsb
 
 ! Get hd1 data
-
+	// 获取第二块硬盘的信息。
 	mov	ax,#0x0000
 	mov	ds,ax
 	lds	si,[4*0x46]
@@ -105,7 +107,8 @@ no_disk1:
 is_disk1:
 
 ! now we want to move to protected mode ...
-
+	// 关闭中断
+	// 后续把原本是BIOS写好的中断向量表给覆盖掉，期间不允许中断进来。
 	cli			! no interrupts allowed !
 
 ! first we move the system to it's rightful place
@@ -130,12 +133,14 @@ do_move:
 end_move:
 	mov	ax,#SETUPSEG	! right, forgot this at first. didn't work :-)
 	mov	ds,ax
+	// 配置了全局描述符表 gdt 和中断描述符表 idt。
 	lidt	idt_48		! load idt with 0,0
 	lgdt	gdt_48		! load gdt with whatever appropriate
 
 ! that was painless, now we enable A20
 
 	call	empty_8042
+	// 打开 A20 地址线
 	mov	al,#0xD1		! command write
 	out	#0x64,al
 	call	empty_8042
@@ -187,9 +192,11 @@ end_move:
 ! things as simple as possible, we do no register set-up or anything,
 ! we let the gnu-compiled 32-bit programs do that. We just jump to
 ! absolute address 0x00000, in 32-bit protected mode.
-
+  // 更改 cr0 寄存器开启保护模式。
 	mov	ax,#0x0001	! protected mode (PE) bit
 	lmsw	ax		! This is it!
+	// 跳到了内存地址 0 处开始执行代码。
+	// 0 位置处存储着操作系统全部核心代码，是由 head.s 和 main.c 以及后面的无数源代码文件编译并链接在一起而成的 system 模块。
 	jmpi	0,8		! jmp offset 0 of segment 8 (cs)
 
 ! This routine checks that the keyboard command queue is empty
@@ -215,10 +222,12 @@ gdt:
 	.word	0x9200		! data read/write
 	.word	0x00C0		! granularity=4096, 386
 
+// 中断表
 idt_48:
 	.word	0			! idt limit=0
 	.word	0,0			! idt base=0L
 
+//  CPU 全局描述符表（gdt）
 gdt_48:
 	.word	0x800		! gdt limit=2048, 256 GDT entries
 	.word	512+gdt,0x9	! gdt base = 0X9xxxx
