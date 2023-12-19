@@ -13,13 +13,16 @@
  */
 .text
 .globl _idt,_gdt,_pg_dir,_tmp_floppy_area
+! 页目录
 _pg_dir:
 startup_32:
+	! 指向全局描述符表中的第二个段描述符，也就是数据段描述符。
 	movl $0x10,%eax
 	mov %ax,%ds
 	mov %ax,%es
 	mov %ax,%fs
 	mov %ax,%gs
+	! 让 ss:esp 这个栈顶指针指向了 _stack_start 这个标号的位置
 	lss _stack_start,%esp
 	call setup_idt
 	call setup_gdt
@@ -75,6 +78,9 @@ check_x87:
  *  sure everything is ok. This routine will be over-
  *  written by the page tables.
  */
+ ! 设置了 256 个中断描述符，并且让每一个中断描述符中的中断程序例程都指向一个 ignore_int 的函数地址。
+ ! 这个是个默认的中断处理程序，之后会逐渐被各个具体的中断程序所覆盖。
+ ! 比如之后键盘模块会将自己的键盘中断处理程序，覆盖过去
 setup_idt:
 	lea ignore_int,%edx
 	movl $0x00080000,%eax
@@ -132,6 +138,7 @@ pg3:
 _tmp_floppy_area:
 	.fill 1024,1,0
 
+! 🍀 开启分页机制，并且跳转到 main 函数
 after_page_tables:
 	pushl $0		# These are the parameters to main :-)
 	pushl $0

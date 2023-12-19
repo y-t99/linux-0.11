@@ -6,3 +6,9 @@ Linux version 0.11 source code written by Linus.
 [dibingfa/flash-linux0.11-talk](https://github.com/dibingfa/flash-linux0.11-talk)
 
 [theanarkh/read-linux-0.11](https://github.com/theanarkh/read-linux-0.11)
+
+
+## Machine
+
+1. x86 
+2. one click = 16 bytes
