@@ -10,5 +10,14 @@ Linux version 0.11 source code written by Linus.
 
 ## Machine
 
-1. x86 
-2. one click = 16 bytes
+x86
+
+### Hardware
+
+#### CPU
+
+##### Register
+
+[Low Level Programming Basic Concepts](https://www.baskent.edu.tr/~tkaracay/etudio/ders/prg/pascal/PasHTM2/pas/lowlevel.html)
+
+![Registers](./picture/registers.png)

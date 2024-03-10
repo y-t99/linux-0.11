@@ -41,7 +41,7 @@ begdata:
 begbss:
 .text
 
-SETUPLEN = 4				! nr of setup-sectors setup扇区的数量为4个。
+SETUPLEN = 4					! nr of setup-sectors setup扇区的数量为4个。
 BOOTSEG  = 0x07c0			! original address of boot-sector 引导扇区的原始地址为0x07c0。
 INITSEG  = 0x9000			! we move boot here - out of the way
 SETUPSEG = 0x9020			! setup starts here
@@ -53,7 +53,7 @@ ENDSEG   = SYSSEG + SYSSIZE		! where to stop loading 表示加载过程应停止
 ! ROOT_DEV用于表示根文件系统所在的设备:
 !   0x000: 表示根文件系统与引导时使用的软盘类型相同。
 !   0x301: 表示根文件系统位于第一块驱动器的第一个分区。
-!   0x306表示根文件系统位于第一块驱动器的第三个分区。
+!   0x306：表示根文件系统位于第一块驱动器的第三个分区。
 ROOT_DEV = 0x306
 
 entry start
