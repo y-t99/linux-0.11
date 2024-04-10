@@ -19,7 +19,15 @@ An addressing mode specifies how to calculate the effective memory address of an
 
 ### Operating modes
 
+### Interrupt & Exception
 
+The processor providers two mechanisms for interrupting program execution interrupts and exceptions:
+
+An interrupt is an asynchronous event that is typically triggered by an I/O device.
+
+An exception is a synchronous event that is generated when the processor detects one or more predefined conditions while executing an instruction.
+
+> The INT n instructions also can interrupt program execution.
 
 ## Machine
 
@@ -37,3 +45,4 @@ An addressing mode specifies how to calculate the effective memory address of an
 
 主板<sub>Main Board</sub>BIOS读取硬盘<sub>Hard Dist</sub>第一扇区<sub>Sector</sub>512字节进入内存<sub>Memory</sub>。
 
+程序中断从硬盘中读取setup模块和system模块到内存，而后跳到setup模块执行。

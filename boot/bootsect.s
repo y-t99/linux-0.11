@@ -10,7 +10,7 @@ SYSSIZE = 0x3000
 !
 ! bootsect.s is loaded at 0x7c00 by the bios-startup routines, and moves
 ! iself out of the way to address 0x90000, and jumps there.
-! bootsect.s通过BIOS启动程序中加载到0x7c00位置，并将自身移动到0x90000，且程序执行跳转到那里。
+! bootsect.s通过BIOS启动程序加载到0x7c00位置，并将自身移动到0x90000，且程序执行跳转到那里。
 !
 ! It then loads 'setup' directly after itself (0x90200), and the system
 ! at 0x10000, using BIOS interrupts.
@@ -94,7 +94,7 @@ load_setup:
 	! 返回：CF＝0说明操作成功，否则，AH＝错误代码
     !
 	! 读取软盘的setup模块代码，jc在CF=1时跳转，jnc则在CF=0时跳转，
-	! 读取软盘出错则CF=1，ah是出错码，所以下面是CF等于1，说明加载成功，则跳转，否则则重试。
+	! 读取软盘出错则CF=1，ah是出错码，所以下面是CF等于0，说明加载成功，则跳转，否则则重试。
 	int	0x13			! read it
 	jnc	ok_load_setup		! ok - continue
 	mov	dx,#0x0000
