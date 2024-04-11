@@ -17,6 +17,18 @@ Instruction set architecture: x86.
 
 An addressing mode specifies how to calculate the effective memory address of an operand by using information held in registers and/or constants contained within a machine instruction or elsewhere.
 
+Real mode, gets its name from the fact that addresses in real mode always correspond to real locations in memory. Real mode is characterized by a 20-bit segmented memory address space (giving 1 MB of addressable memory) and unlimited direct software access to all addressable memory, I/O addresses and peripheral hardware.
+
+> In real mode, CS:IP: CS <<< 4 ^ IP = Memory Address. 
+
+Protected mode, allows system software to use features such as segmentation, virtual memory, paging and safe multi-tasking designed to increase an operating system's control over application software.
+
+Protected mode may only be entered after the system software sets up one descriptor table and enables the Protection Enable (PE) bit in the control register 0 (CR0).
+
+To enter protected mode, the Global Descriptor Table (GDT) must first be created with a minimum of three entries: a null descriptor, a code segment descriptor and data segment descriptor.
+
+The Global Descriptor Table (GDT) is a data structure used by Intel x86-family processors starting with the 80286 in order to define the characteristics of the various memory areas used during program execution, including the base address, the size, and access privileges like executability and writability. These memory areas are called segments in Intel terminology.
+
 ### Operating modes
 
 ### Interrupt & Exception

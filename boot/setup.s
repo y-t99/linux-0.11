@@ -42,7 +42,7 @@ start:
 	mov	[0],dx		! it from 0x90000.
 
 ! Get memory size (extended mem, kB)
-	! 把拓展内存信息存到0x9000:2处
+	! 🍀 把拓展内存信息存到0x9000:2处
 	mov	ah,#0x88
 	int	0x15
 	mov	[2],ax
@@ -124,6 +124,7 @@ do_move:
 	sub	di,di
 	sub	si,si
 	mov 	cx,#0x8000
+	// 🍀 将system模块移动到0地址
 	rep
 	movsw
 	jmp	do_move
@@ -192,7 +193,7 @@ end_move:
 ! things as simple as possible, we do no register set-up or anything,
 ! we let the gnu-compiled 32-bit programs do that. We just jump to
 ! absolute address 0x00000, in 32-bit protected mode.
-    ! 更改 cr0 寄存器开启保护模式。
+    ! 🍀 更改 cr0 寄存器开启保护模式。
 	mov	ax,#0x0001	! protected mode (PE) bit
 	lmsw	ax		! This is it!
 	! 🍀 跳到了内存地址 0 处开始执行代码。
