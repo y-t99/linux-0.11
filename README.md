@@ -19,7 +19,7 @@ An addressing mode specifies how to calculate the effective memory address of an
 
 Real mode, gets its name from the fact that addresses in real mode always correspond to real locations in memory. Real mode is characterized by a 20-bit segmented memory address space (giving 1 MB of addressable memory) and unlimited direct software access to all addressable memory, I/O addresses and peripheral hardware.
 
-> In real mode, CS:IP: CS <<< 4 ^ IP = Memory Address. 
+> In real mode, CS:IP: (CS <<< 4) | IP = Memory Address. 
 
 Protected mode, allows system software to use features such as segmentation, virtual memory, paging and safe multi-tasking designed to increase an operating system's control over application software.
 
@@ -40,6 +40,16 @@ An interrupt is an asynchronous event that is typically triggered by an I/O devi
 An exception is a synchronous event that is generated when the processor detects one or more predefined conditions while executing an instruction.
 
 > The INT n instructions also can interrupt program execution.
+
+### POSIX
+
+The Portable Operating System Interface is a family of standards specified by the IEEE Computer Society for maintaining compatibility between operating systems. POSIX defines both the system and user-level application programming interfaces (APIs), along with command line shells and utility interfaces, for software compatibility (portability) with variants of Unix and other operating systems. POSIX is also a trademark of the IEEE. POSIX is intended to be used by both application and system developers.
+
+### Kernel Mode & User Mode
+
+A processor in a computer running operates in two different modes: user mode and kernel mode. The processor switches between these modes depending on the type of code it's executing. Applications operate in user mode, while core operating system components function in kernel mode. Although many drivers operate in kernel mode, some can function in user mode.
+
+> int 0x80 => CPL 3 user mode -> 0 kernel mode 
 
 ## Machine
 
